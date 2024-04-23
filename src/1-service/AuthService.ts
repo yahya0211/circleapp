@@ -4,7 +4,6 @@ import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
 import { register, login } from "../utils/AuthUtils";
-import { error } from "console";
 
 const prisma = new PrismaClient();
 
@@ -72,7 +71,7 @@ export default new (class AuthService {
       const token = jwt.sign({ User }, "SECRET_KEY", { expiresIn: 9999999 });
 
       return res.status(201).json(token);
-    } catch (err) {
+    } catch (error) {
       return res.status(501).json(error);
     }
   }

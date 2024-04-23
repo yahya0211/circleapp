@@ -1,14 +1,14 @@
 import * as jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
-import { error } from "console";
+import { log } from "node:console";
 
 export default new (class AuthMiddleware {
   Auth(req: Request, res: Response, next: NextFunction) {
     try {
       const AuthorZ = req.header("Authorization");
 
-      if (!AuthorZ || AuthorZ.startsWith("Bearer ")) {
-        return res.status(401).json({ Error: "Unathorization" });
+      if (!AuthorZ || !AuthorZ.startsWith("Bearer ")) {
+        return res.status(401).json({ Error: "Unathorization: Please login" });
       }
 
       const token = AuthorZ.split(" ")[1];

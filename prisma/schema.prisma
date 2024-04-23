@@ -45,8 +45,8 @@ model Thread {
   content String
   image String?
   created_at DateTime @default(now())
-  user Users @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String
+  user Users @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id String
   like Like[]
   replies Reply[]
   isLiked Boolean @default(false)
@@ -59,15 +59,15 @@ model Reply{
   created_at DateTime @default(now())
   Thread Thread? @relation(fields: [threadId], references: [id], onDelete: Cascade)
   threadId String?
-  user Users @relation(fields: [userId], references: [id], onDelete: Cascade )
-  userId String
+  user Users @relation(fields: [user_id], references: [id], onDelete: Cascade )
+  user_id String
 
 }
 
 model Like {
   id String @id @default(uuid())
-  user Users @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String
+  user Users @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id String
   thread Thread @relation(fields: [threadId], references: [id], onDelete: Cascade)
   threadId String
 }
