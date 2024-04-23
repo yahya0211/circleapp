@@ -10,6 +10,22 @@ export default new (class UserController {
     UserService.findById(req, res);
   }
 
+  findByName(req: Request, res: Response) {
+    UserService.findByName(req, res);
+  }
+
+  updateWithoutImage(req: Request, res: Response) {
+    UserService.updateWithoutImage(req, res);
+  }
+
+  uploadProfilePicture(req: Request, res: Response) {
+    UserService.uploadProfilePicture(req, res);
+  }
+
+  getSugestedUser(req: Request, res: Response) {
+    UserService.getSugestedUser(req, res);
+  }
+
   delete(req: Request, res: Response) {
     UserService.delete(req, res);
   }
