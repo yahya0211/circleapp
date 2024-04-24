@@ -24,14 +24,4 @@ export default new (class AuthMiddleware {
       return res.status(500).json({ Error: "Error tidak ada token" });
     }
   }
-
-  async logout(req: Request, res: Response): Promise<Response> {
-    try {
-      delete res.locals.loginSession;
-
-      return res.status(200).json({ message: "Logout Success!" });
-    } catch (error) {
-      return res.status(500).json({ error: "Gagal melakukan logout!" });
-    }
-  }
 })();

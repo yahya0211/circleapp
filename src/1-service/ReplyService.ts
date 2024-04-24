@@ -21,7 +21,7 @@ export default new (class ReplyService {
       const threadId = req.params.threadId;
 
       if (!isValidUUID(threadId)) {
-        return res.status(400).json({ error: "invalid UUID" });
+        return res.status(400).json({ message: "invalid UUID" });
       }
 
       const userId = res.locals.loginSession.User.id;
@@ -32,7 +32,7 @@ export default new (class ReplyService {
         },
       });
 
-      if (!userSelected) return res.status(404).json({ error: "User not found" });
+      if (!userSelected) return res.status(404).json({ message: "User not found" });
 
       const threadSelected = await this.ThreadRepository.findUnique({
         where: {
@@ -40,11 +40,11 @@ export default new (class ReplyService {
         },
       });
 
-      if (!threadSelected) return res.status(404).json({ error: "Thread not found" });
+      if (!threadSelected) return res.status(404).json({ message: "Thread not found" });
 
       const body = req.body;
       const { error } = addThread.validate(body);
-      if (error) return res.status(400).json(error.message);
+      if (error) return res.status(400).json({ message: error.message });
 
       const image = req.file;
       let image_url = "";
@@ -90,7 +90,7 @@ export default new (class ReplyService {
       });
     } catch (error) {
       console.log(error);
-      return res.status(500).json(error);
+      return res.status(500).json({ message: error });
     }
   }
 
@@ -100,7 +100,7 @@ export default new (class ReplyService {
 
       // Karena menerima 2 parameter tambahkan && jadi dia mengecek replyId dan ThreadId
       if (!isValidUUID(replyId) && !isValidUUID(threadId)) {
-        return res.status(400).json({ error: "invalid UUID" });
+        return res.status(400).json({ message: "invalid UUID" });
       }
 
       const userId = res.locals.loginSession.User.id;
@@ -111,7 +111,7 @@ export default new (class ReplyService {
         },
       });
 
-      if (!userSelected) return res.status(404).json({ error: "User not found" });
+      if (!userSelected) return res.status(404).json({ message: "User not found" });
 
       const threadSelected = await this.ThreadRepository.findUnique({
         where: {
@@ -122,7 +122,7 @@ export default new (class ReplyService {
         },
       });
 
-      if (!threadSelected) return res.status(404).json({ error: "Thread not found" });
+      if (!threadSelected) return res.status(404).json({ message: "Thread not found" });
 
       const replySelected = await this.ReplyRepository.findUnique({
         where: {
@@ -130,11 +130,11 @@ export default new (class ReplyService {
         },
       });
 
-      if (!replySelected) return res.status(404).json({ error: "Reply not found" });
+      if (!replySelected) return res.status(404).json({ message: "Reply not found" });
 
       const body = req.body;
       const { error } = addThread.validate(body);
-      if (error) return res.status(400).json(error.message);
+      if (error) return res.status(400).json({ message: error.message });
 
       const image = req.file;
       let image_url = "";
@@ -178,7 +178,7 @@ export default new (class ReplyService {
       });
     } catch (error) {
       console.log(error);
-      return res.status(500).json(error);
+      return res.status(500).json({ message: error });
     }
   }
 
@@ -187,7 +187,7 @@ export default new (class ReplyService {
       const replyId = req.params.replyId;
 
       if (!isValidUUID(replyId)) {
-        return res.status(400).json({ error: "invalid UUID" });
+        return res.status(400).json({ message: "invalid UUID" });
       }
 
       const userId = res.locals.loginSession.User.id;
@@ -196,7 +196,7 @@ export default new (class ReplyService {
         where: { id: userId },
       });
 
-      if (!userSelect) return res.status(404).json({ error: "User not found" });
+      if (!userSelect) return res.status(404).json({ message: "User not found" });
 
       const oldReplyData = await this.ThreadRepository.findUnique({
         where: { id: replyId },
@@ -217,12 +217,12 @@ export default new (class ReplyService {
       return res.status(200).json({
         code: 200,
         status: "Success",
-        message: "Update Reply success",
+        message: "Delete Reply success",
         data: deleteReply,
       });
     } catch (error) {
       console.log(error);
-      return res.status(500).json(error);
+      return res.status(500).json({ message: error });
     }
   }
 })();

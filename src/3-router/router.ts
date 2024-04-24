@@ -14,13 +14,14 @@ const router = express.Router();
 //Auth
 router.post("/register", AuthController.register);
 router.post("/login", AuthController.login);
-router.post("/logout", AuthController.logout);
+router.post("/logout", AuthMidleware.Auth, AuthController.logout);
+router.post("/check", AuthMidleware.Auth, AuthController.check);
 
 //Follow
-router.post("/follow/:followingId", FollowController.follow);
+router.post("/follow/:followingId", AuthMidleware.Auth, FollowController.follow);
 
 //Like
-router.post("/thread/:threadId/like", LikeController.like);
+router.post("/thread/:threadId/like", AuthMidleware.Auth, LikeController.like);
 
 //Reply
 router.post("/addReply/:threadId/reply", AuthMidleware.Auth, upload.single("image"), ReplyController.addReply);
@@ -41,6 +42,9 @@ router.get("/findThreadById/:page", AuthMidleware.Auth, ThreadController.findByI
 router.post("/addThread/:threadId", AuthMidleware.Auth, upload.single("image"), ThreadController.addThread);
 router.post("/updateThread/:threadId", AuthMidleware.Auth, upload.single("image"), ThreadController.updateThread);
 router.delete("/deleteThread/:threadId", AuthMidleware.Auth, upload.single("image"), ThreadController.deleteThread);
+
+//Thread Redis
+router.get("/threadredis/:page", AuthMidleware.Auth, ThreadController.findAllRedis);
 
 router.use("/uploads", express.static(path.join(__dirname, "uploads")));
 

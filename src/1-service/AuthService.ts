@@ -14,7 +14,7 @@ export default new (class AuthService {
     try {
       const body = req.body;
       const { error } = register.validate(body);
-      if (error) return res.status(400).json(error.message);
+      if (error) return res.status(400).json({ message: error.message });
 
       const isMailRegistered = await this.AuthRepository.count({
         where: { email: body.email },
@@ -39,10 +39,15 @@ export default new (class AuthService {
         },
       });
 
-      return res.status(201).json(Auth);
+      return res.status(201).json({
+        code: 201,
+        status: "Success",
+        message: "Registration success",
+        data: Auth,
+      });
     } catch (error) {
       console.log(error);
-      return res.status(501).json(error);
+      return res.status(501).json({ message: error });
     }
   }
 
@@ -50,7 +55,7 @@ export default new (class AuthService {
     try {
       const body = req.body;
       const { value, error } = login.validate(body);
-      if (error) return res.status(400).json(error.message);
+      if (error) return res.status(400).json({ message: error.message });
 
       const isMailRegistered = await this.AuthRepository.findFirst({
         where: { email: body.email },
@@ -70,9 +75,48 @@ export default new (class AuthService {
 
       const token = jwt.sign({ User }, "SECRET_KEY", { expiresIn: 9999999 });
 
-      return res.status(201).json(token);
+      return res.status(200).json({
+        code: 200,
+        status: "Success",
+        message: "Login success",
+        token,
+      });
     } catch (error) {
-      return res.status(501).json(error);
+      return res.status(501).json({ message: error });
+    }
+  }
+
+  async check(req: Request, res: Response): Promise<Response> {
+    try {
+      const user = await this.AuthRepository.findUnique({
+        where: {
+          id: res.locals.loginSession.User.id,
+        },
+      });
+
+      if (!user) return res.status(404).json({ message: "User not found" });
+
+      return res.status(200).json({
+        code: 200,
+        status: "Success",
+        message: "User have token",
+      });
+    } catch (error) {
+      return res.status(501).json({ message: error });
+    }
+  }
+
+  async logout(req: Request, res: Response): Promise<Response> {
+    try {
+      localStorage.clear();
+
+      return res.status(200).json({
+        code: 200,
+        status: "Success",
+        message: "Logout success",
+      });
+    } catch (error) {
+      return res.status(500).json({ message: "Gagal melakukan logout!" });
     }
   }
 })();

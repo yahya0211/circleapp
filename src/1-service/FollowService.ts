@@ -17,12 +17,12 @@ export default new (class FollowService {
       const followingId = req.params.followingId;
 
       if (!isValidUUID(followingId)) {
-        return res.status(400).json({ error: "invalid UUID" });
+        return res.status(400).json({ message: "invalid UUID" });
       }
 
       const userId = res.locals.loginSession.User.id;
 
-      if (followingId == userId) return res.status(400).json({ error: " You can't follow yourself" });
+      if (followingId == userId) return res.status(400).json({ message: " You can't follow yourself" });
 
       const followingUser = await this.UserRepository.findUnique({
         where: {
@@ -30,7 +30,7 @@ export default new (class FollowService {
         },
       });
 
-      if (!followingUser) return res.status(404).json({ error: "User not found" });
+      if (!followingUser) return res.status(404).json({ message: "User not found" });
 
       // Mencari data dari database
 
@@ -40,7 +40,7 @@ export default new (class FollowService {
         },
       });
 
-      if (!followerUser) return res.status(400).json({ error: "User not found" });
+      if (!followerUser) return res.status(400).json({ message: "User not found" });
 
       //mencari pengguna apakah sudah follow user
       const exitingFollow = await this.UserFollowingRepository.findFirst({
@@ -77,7 +77,7 @@ export default new (class FollowService {
       });
     } catch (error) {
       console.log(error);
-      return res.status(500).json(error);
+      return res.status(500).json({ message: error });
     }
   }
 })();

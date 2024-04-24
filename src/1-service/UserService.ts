@@ -5,7 +5,6 @@ import { v4 as uuidv4 } from "uuid";
 import cloudinary from "../config";
 import * as bcrypt from "bcrypt";
 import * as fs from "fs";
-import { skip } from "node:test";
 
 const prisma = new PrismaClient();
 
@@ -40,7 +39,7 @@ export default new (class UserService {
 
       const totalPages = Math.ceil(totalUsers / pageSize);
 
-      if (page > totalPages) return res.status(404).json({ error: "Page not found!" });
+      if (page > totalPages) return res.status(404).json({ message: "Page not found!" });
       // Ketika user melakukan input page melebihi kapasitas yang tersedia
       // sistem akan mengeluarkan error bahwa halaman tidak ada
 
@@ -54,10 +53,15 @@ export default new (class UserService {
         },
       };
 
-      return res.status(200).json(userss);
+      return res.status(201).json({
+        code: 201,
+        status: "Success",
+        message: "Success find all user",
+        data: userss,
+      });
     } catch (error) {
       console.log(error);
-      return res.status(500).json(error);
+      return res.status(500).json({ message: error });
     }
   }
 
@@ -66,7 +70,7 @@ export default new (class UserService {
       const userId = req.params.userId;
 
       if (!isValidUUID(userId)) {
-        return res.status(400).json({ error: "invalid UUID" });
+        return res.status(400).json({ message: "invalid UUID" });
       }
 
       const users = await this.UserRepository.findUnique({
@@ -82,12 +86,17 @@ export default new (class UserService {
         },
       });
 
-      if (!users) return res.status(404).json({ error: "User Not found" });
+      if (!users) return res.status(404).json({ message: "User Not found" });
 
-      return res.status(200).json({ users });
+      return res.status(201).json({
+        code: 201,
+        status: "Success",
+        message: "Success find by id user",
+        data: users,
+      });
     } catch (error) {
       console.log(error);
-      return res.status(500).json(error);
+      return res.status(500).json({ message: error });
     }
   }
 
@@ -101,12 +110,17 @@ export default new (class UserService {
         },
       });
 
-      if (!user) return res.status(404).json({ error: "User not found" });
+      if (!user) return res.status(404).json({ message: "User not found" });
 
-      return res.status(200).json({ user });
+      return res.status(201).json({
+        code: 201,
+        status: "Success",
+        message: "Success find by name user",
+        data: user,
+      });
     } catch (error) {
       console.log(error);
-      return res.status(500).json(error);
+      return res.status(500).json({ message: error });
     }
   }
 
@@ -115,22 +129,22 @@ export default new (class UserService {
       const userId = req.params.userId;
 
       if (!isValidUUID(userId)) {
-        return res.status(400).json({ error: "invalid UUID" });
+        return res.status(400).json({ message: "invalid UUID" });
       }
 
       const session = res.locals.loginSession.User.id;
 
-      if (userId !== session) return res.status(403).json({ error: "Unauthorization: you're not user login" });
+      if (userId !== session) return res.status(403).json({ message: "Unauthorization: you're not user login" });
 
       const user = await this.UserRepository.findUnique({
         where: { id: userId },
       });
 
-      if (!user) return res.status(404).json({ error: "User not found" });
+      if (!user) return res.status(404).json({ message: "User not found" });
 
       const body = req.body;
       const { error } = update.validate(body);
-      if (error) return res.status(400).json(error.message);
+      if (error) return res.status(400).json({ message: error.message });
 
       let hashPassword = user.password;
       let fullname = user.fullname;
@@ -164,10 +178,15 @@ export default new (class UserService {
         },
       });
 
-      return res.status(200).json(updateUser);
+      return res.status(201).json({
+        code: 201,
+        status: "Success",
+        message: "Success upload data profile user",
+        data: updateUser,
+      });
     } catch (error) {
       console.log(error);
-      return res.status(500).json(error);
+      return res.status(500).json({ message: error });
     }
   }
 
@@ -176,15 +195,15 @@ export default new (class UserService {
       const userId = req.params.userId;
 
       if (!isValidUUID(userId)) {
-        return res.status(400).json({ error: "invalid UUID" });
+        return res.status(400).json({ message: "invalid UUID" });
       }
 
       const session = res.locals.loginSession.User.id;
 
-      if (userId !== session) return res.status(403).json({ error: "Unauthorization: you're not user login" });
+      if (userId !== session) return res.status(403).json({ message: "Unauthorization: you're not user login" });
 
       const image = req.file;
-      if (!image) return res.status(400).json({ error: "No image provided" });
+      if (!image) return res.status(400).json({ message: "No image provided" });
 
       const oldUserData = await this.UserRepository.findUnique({
         where: { id: userId },
@@ -213,7 +232,12 @@ export default new (class UserService {
         },
       });
 
-      return res.status(200).json(updateUser);
+      return res.status(201).json({
+        code: 201,
+        status: "Success",
+        message: "Success upload picture profile user",
+        data: updateUser,
+      });
     } catch (error) {
       console.log(error);
       return res.status(500).json(error);
@@ -236,10 +260,15 @@ export default new (class UserService {
         },
       });
 
-      return res.status(200).json(users);
+      return res.status(200).json({
+        code: 200,
+        status: "Success",
+        message: "Success get sugested user",
+        data: users,
+      });
     } catch (error) {
       console.log(error);
-      return res.status(500).json(error);
+      return res.status(500).json({ message: error });
     }
   }
 
@@ -248,12 +277,12 @@ export default new (class UserService {
       const userId = req.params.userId;
 
       if (!isValidUUID(userId)) {
-        return res.status(400).json({ error: "Invalid UUID" });
+        return res.status(400).json({ message: "Invalid UUID" });
       }
 
       const session = res.locals.loginSession.User.id;
 
-      if (userId !== session) return res.status(403).json({ error: "Unauthorization : You're not user Login " });
+      if (userId !== session) return res.status(403).json({ message: "Unauthorization : You're not user Login " });
 
       const userDelete = await this.UserRepository.findUnique({
         where: { id: userId },
@@ -266,7 +295,7 @@ export default new (class UserService {
 
       console.log(userDelete);
 
-      if (!userDelete) return res.status(400).json({ error: "User not found" });
+      if (!userDelete) return res.status(400).json({ message: "User not found" });
 
       // Menghapus user untuk sesama user yang salaing folow
       await this.UserFollowingRepository.deleteMany({
@@ -281,10 +310,15 @@ export default new (class UserService {
         where: { id: userId },
       });
 
-      return res.status(200).json(deleteUser);
+      return res.status(200).json({
+        code: 200,
+        status: "Success",
+        message: "Success delete user",
+        data: deleteUser,
+      });
     } catch (error) {
       console.log(error);
-      return res.status(500).json(error);
+      return res.status(500).json({ message: error });
     }
   }
 })();

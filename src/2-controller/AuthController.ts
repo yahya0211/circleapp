@@ -9,8 +9,10 @@ export default new (class AuthController {
   login(req: Request, res: Response) {
     AuthService.login(req, res);
   }
-
   logout(req: Request, res: Response) {
-    AuthMidleware.logout(req, res);
+    AuthService.logout(req, res);
+  }
+  check(req: Request, res: Response) {
+    AuthService.check(req, res);
   }
 })();
