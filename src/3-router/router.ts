@@ -38,12 +38,13 @@ router.delete("/deleteUser/:userId", AuthMidleware.Auth, UserController.delete);
 
 //Thread
 router.get("/findAllThread/:page", AuthMidleware.Auth, ThreadController.findAll);
-router.get("/findThreadById/:page", AuthMidleware.Auth, ThreadController.findById);
-router.post("/addThread/:threadId", AuthMidleware.Auth, upload.single("image"), ThreadController.addThread);
+router.get("/findThreadById/:threadId", AuthMidleware.Auth, ThreadController.findById);
+router.post("/uploadMultiple", AuthMidleware.Auth, upload.array("images"), ThreadController.uploadMultipleImage);
+router.post("/addThread", AuthMidleware.Auth, upload.single("image"), ThreadController.addThread);
 router.post("/updateThread/:threadId", AuthMidleware.Auth, upload.single("image"), ThreadController.updateThread);
 router.delete("/deleteThread/:threadId", AuthMidleware.Auth, upload.single("image"), ThreadController.deleteThread);
 
-//Thread Redis
+//Thread Page Redis
 router.get("/threadredis/:page", AuthMidleware.Auth, ThreadController.findAllRedis);
 
 router.use("/uploads", express.static(path.join(__dirname, "uploads")));

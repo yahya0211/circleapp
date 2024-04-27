@@ -20,4 +20,8 @@ export default new (class AuthController {
   findAllRedis(req: Request, res: Response) {
     ThreadService.findAllRedis(req, res);
   }
+
+  uploadMultipleImage(req: Request, res: Response) {
+    ThreadService.uploadMultipleImage(req, res);
+  }
 })();

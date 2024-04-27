@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import cloudinary from "../config";
 import * as bcrypt from "bcrypt";
 import * as fs from "fs";
+import pLimit from "p-limit";
 
 const prisma = new PrismaClient();
 

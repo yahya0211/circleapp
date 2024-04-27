@@ -1,10 +1,13 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import { v4 as uuidv4 } from "uuid";
-import { addThread } from "../utils/ThreadUtil";
+import { addThread, uploadMultipleImage } from "../utils/ThreadUtil";
 import cloudinary from "../config";
 import * as fs from "fs";
 import redisClient, { DEFAULT_EXPIRATION } from "../cache/redis";
+import upload from "../middleware/UploadMiddleware";
+import pLimit from "p-limit";
+import { array } from "joi";
 
 const prisma = new PrismaClient();
 
@@ -385,6 +388,85 @@ export default new (class ThreadService {
     } catch (error) {
       console.log(error);
       return res.status(500).json({ message: error });
+    }
+  }
+
+  async uploadMultipleImage(req: Request, res: Response) {
+    try {
+      const body = req.body;
+      const { error } = uploadMultipleImage.validate(body);
+      if (error) return res.status(400).json({ message: error.message });
+
+      const id = res.locals.loginSession.User.id;
+
+      const userSelect = await this.UserRepository.findUnique({
+        where: { id: id },
+      });
+
+      if (!userSelect) return res.status(404).json({ message: "User not found" });
+
+      const images = req.files;
+      const image_url: string[] = [];
+
+      if (images) {
+        if (Array.isArray(images)) {
+          Promise.all(
+            images.map(async (data) => {
+              const cloudinaryUpload = await cloudinary.uploader.upload(data.path, {
+                folder: "Circle53",
+              });
+              image_url.push(cloudinaryUpload.secure_url);
+              fs.unlinkSync(data.path);
+            })
+          ).then(async () => {
+            const newThread = await this.ThreadRepository.create({
+              data: {
+                content: body.content,
+                images: image_url,
+                image: "Upload image",
+                user: {
+                  connect: { id: id },
+                },
+              },
+            });
+
+            return res.status(200).json({
+              code: 200,
+              status: "Add Thread Success",
+              data: newThread,
+            });
+          });
+        }
+      } else {
+        image_url.push("");
+
+        const newThread = await this.ThreadRepository.create({
+          data: {
+            content: body.content,
+            images: image_url,
+            image: "",
+            user: { connect: { id: id } },
+          },
+        });
+        return res.status(200).json({
+          code: 200,
+          status: "Add Thread Success!",
+          data: newThread,
+        });
+      }
+
+      console.log(images);
+
+      // return res.status(201).json({
+      //   code: 201,
+      //   status: "Success",
+      //   message: "Success add multiple image",
+      //   data: newThread
+
+      // });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json(error);
     }
   }
 })();

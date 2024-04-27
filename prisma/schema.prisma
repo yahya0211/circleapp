@@ -43,7 +43,8 @@ model Userfollowing {
 model Thread {
   id String @id @default(uuid())
   content String
-  image String?
+  image String
+  images String[]
   created_at DateTime @default(now())
   user Users @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id String
@@ -55,7 +56,8 @@ model Thread {
 model Reply{
   id String @id @default(uuid())
   content String
-  image String?
+  image String
+  images String[]
   created_at DateTime @default(now())
   Thread Thread? @relation(fields: [threadId], references: [id], onDelete: Cascade)
   threadId String?
