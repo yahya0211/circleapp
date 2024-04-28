@@ -456,14 +456,6 @@ export default new (class ThreadService {
       }
 
       console.log(images);
-
-      // return res.status(201).json({
-      //   code: 201,
-      //   status: "Success",
-      //   message: "Success add multiple image",
-      //   data: newThread
-
-      // });
     } catch (error) {
       console.log(error);
       return res.status(500).json(error);
