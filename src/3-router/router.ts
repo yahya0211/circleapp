@@ -44,6 +44,9 @@ router.post("/addThread", AuthMidleware.Auth, upload.single("image"), ThreadCont
 router.post("/updateThread/:threadId", AuthMidleware.Auth, upload.single("image"), ThreadController.updateThread);
 router.delete("/deleteThread/:threadId", AuthMidleware.Auth, upload.single("image"), ThreadController.deleteThread);
 
+// Thread Queue
+router.post("/addThreadQueue/:userId", AuthMidleware.Auth, upload.single("image"), ThreadController.addThreadQueue);
+
 //Thread Page Redis
 router.get("/threadredis/:page", AuthMidleware.Auth, ThreadController.findAllRedis);
 

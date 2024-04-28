@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import AuthService from "../1-service/AuthService";
-import AuthMidleware from "../middleware/AuthMidleware";
 
 export default new (class AuthController {
   register(req: Request, res: Response) {

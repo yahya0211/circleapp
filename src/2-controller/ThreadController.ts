@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import ThreadService from "../1-service/ThreadService";
+import threadsQueue from "../queue/threadsQueue";
 
 export default new (class AuthController {
   findAll(req: Request, res: Response) {
@@ -23,5 +24,8 @@ export default new (class AuthController {
 
   uploadMultipleImage(req: Request, res: Response) {
     ThreadService.uploadMultipleImage(req, res);
+  }
+  addThreadQueue(req: Request, res: Response) {
+    threadsQueue.addThreadQueue(req, res);
   }
 })();
