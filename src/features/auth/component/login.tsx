@@ -1,7 +1,6 @@
 import { useLogin } from "../hooks/useLogin";
 import { Fragment, useEffect, useState } from "react";
 import { Alert, AlertDescription, AlertIcon, Box, Button, Flex, FormControl, Heading, Input, InputGroup, InputRightElement, Text, Image, Grid, GridItem } from "@chakra-ui/react";
-
 import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
@@ -11,14 +10,16 @@ export default function Login() {
 
   useEffect(() => {
     if (isLoginSuccess) {
-      navigate("/login");
+      navigate("/");
     }
   }, [isLoginSuccess]);
   return (
     <Fragment>
-      <Grid templateColumns="repeat(2, 1fr)" gap={10}>
+      <Grid templateColumns="repeat(2, 1fr)" gap={6}>
         <GridItem>
-          <Image src="..\public\circle.png" alt="Dumbways Logo" width={"400px"} display={"inline"} position={"relative"} bottom={"-100px"} left={"100px"} />
+          <Flex justifyContent={"center"} alignItems={"center"} height={"100vh"}>
+            <Image src="..\public\circle.png" alt="Dumbways Logo" width={"500px"} display={"inline"} position={"relative"} bottom={"-3px"} />
+          </Flex>
         </GridItem>
         <GridItem>
           <Flex justifyContent={"center"} alignItems={"center"} h={"100vh"}>
@@ -41,7 +42,7 @@ export default function Login() {
               </FormControl>
               <FormControl mb={4}>
                 <InputGroup size="md">
-                  <Input type={show ? "text" : "password"} placeholder="password" name="password" value={form.password} onChange={handleChange} />
+                  <Input type={show ? "text" : "password"} placeholder="Password" name="password" value={form.password} onChange={handleChange} />
                   <InputRightElement w={"4.5rem"}>
                     <Button h="1.75rem" size="sm" onClick={() => setShow(!show)}>
                       {show ? "Hide" : "Show"}

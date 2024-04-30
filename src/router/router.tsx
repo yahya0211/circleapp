@@ -1,12 +1,10 @@
 import { useEffect, useState, ReactNode } from "react";
-import Register from "../features/auth/component/register";
-import LoginPage from "../pages/LoginPage";
 import { API } from "../utils/api";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Flex, Spinner } from "@chakra-ui/react";
-import HomePage from "../pages/HomePage";
 import Main from "../layout/Main";
-import Login from "../features/auth/component/login";
+import HomePage from "../pages/HomePage";
+import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 
 function router() {
@@ -23,6 +21,8 @@ function router() {
     } catch (error) {
       localStorage.clear();
       return <Navigate to="/login" />;
+    } finally {
+      setCheckAuthFinish(false);
     }
   }
 
@@ -54,7 +54,7 @@ function router() {
     <>
       {checkAuthFinish && (
         <Flex justifyContent={"center"} alignItems={"center"} h={"100vh"} w={"100vh"}>
-          <Spinner thickness="4px" speed="0.80s" emptyColor="grey.200" color="blue.500" w={"70px"} h={"70px"} />
+          <Spinner thickness="4px" speed="0.65s" emptyColor="gray.200" color="blue.500" w={"70px"} h={"70px"} />
         </Flex>
       )}
       {!checkAuthFinish && (
@@ -72,22 +72,22 @@ function router() {
                 }
               />
             </Route>
-            <Route path="/login">
-              <Route
-                index
-                element={
-                  <IsNotLogin>
-                    <LoginPage />
-                  </IsNotLogin>
-                }
-              />
-            </Route>
             <Route path="/register">
               <Route
                 index
                 element={
                   <IsNotLogin>
                     <RegisterPage />
+                  </IsNotLogin>
+                }
+              />
+            </Route>
+            <Route path="/login">
+              <Route
+                index
+                element={
+                  <IsNotLogin>
+                    <LoginPage />
                   </IsNotLogin>
                 }
               />

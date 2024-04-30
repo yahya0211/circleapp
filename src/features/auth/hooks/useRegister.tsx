@@ -12,7 +12,7 @@ export function useRegister() {
   //menangani penginputan backend ke frontend
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
-  const [Error, setError] = useState<string>("false");
+  const [Error, setError] = useState<string>("");
   const [isRegisterSuccess, setRegisterSuccess] = useState<boolean>(false);
 
   function handleChange(event: ChangeEvent<HTMLInputElement>) {

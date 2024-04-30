@@ -11,7 +11,7 @@ export function useLogin() {
   //menangani penginputan backend ke frontend
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
-  const [Error, setError] = useState<string>("false");
+  const [Error, setError] = useState<string>("");
   const [isLoginSuccess, setisLoginSuccess] = useState<boolean>(false);
 
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
@@ -35,6 +35,7 @@ export function useLogin() {
         progress: undefined,
         theme: "colored",
       });
+      localStorage.setItem("jwtToken", response.data.token);
       setIsError(false);
       setError("");
       setisLoginSuccess(true);

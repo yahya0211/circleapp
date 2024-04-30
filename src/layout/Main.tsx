@@ -33,18 +33,17 @@ export default function Main({ children }: { children: ReactNode }) {
         <Drawer placement={"left"} onClose={onClose} isOpen={isOpen}>
           <DrawerOverlay />
           <DrawerContent bg={"#2B2B2B"}>
-            <DrawerCloseButton color={"white"}>
-              <DrawerHeader borderBottomWidth={"3px"}>
-                <Link to={"/"}>
-                  <Heading as="h2" size="3xl" noOfLines={1} color={"#2C7865"} mb={4}>
-                    Circle
-                  </Heading>
-                </Link>
-              </DrawerHeader>
-              <DrawerBody mt={4} w={"100%"} p={0}>
-                <p>Ini Drawer yang ngeslide</p>
-              </DrawerBody>
-            </DrawerCloseButton>
+            <DrawerCloseButton color={"white"} />
+            <DrawerHeader borderBottomWidth={"3px"}>
+              <Link to={"/"}>
+                <Heading as="h2" size="3xl" noOfLines={1} color={"#2C7865"} mb={4}>
+                  Circle
+                </Heading>
+              </Link>
+            </DrawerHeader>
+            <DrawerBody mt={4} w={"100%"} p={0}>
+              <p>Ini Drawer yang ngeslide</p>
+            </DrawerBody>
           </DrawerContent>
         </Drawer>
       </Flex>
