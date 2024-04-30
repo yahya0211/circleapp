@@ -1,35 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "react-toastify/dist/ReactToastify.css";
+import { Fragment } from "react";
+import { ChakraProvider } from "@chakra-ui/react";
+import { QueryClient, QueryClientProvider, QueryCache } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { toast, ToastContainer } from "react-toastify";
+import getError from "./utils/GetError";
+import Router from "./router/router";
+
+const queryClient = new QueryClient({
+  queryCache: new QueryCache({
+    onError: (error) => {
+      toast.error(getError(error), {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    },
+  }),
+});
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Fragment>
+        <QueryClientProvider client={queryClient}>
+          <ChakraProvider>
+            <Router />
+          </ChakraProvider>
+          <ReactQueryDevtools initialIsOpen={false} position="bottom" />
+        </QueryClientProvider>
+        <ToastContainer />
+      </Fragment>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
