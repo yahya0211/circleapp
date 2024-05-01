@@ -6,6 +6,7 @@ import Main from "../layout/Main";
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
+import SearchPage from "../pages/SearchPage";
 
 function router() {
   const [checkAuthFinish, setCheckAuthFinish] = useState<boolean>(true);
@@ -67,6 +68,18 @@ function router() {
                   <IsLogin>
                     <Main>
                       <HomePage />
+                    </Main>
+                  </IsLogin>
+                }
+              />
+            </Route>
+            <Route path="/search">
+              <Route
+                index
+                element={
+                  <IsLogin>
+                    <Main>
+                      <SearchPage />
                     </Main>
                   </IsLogin>
                 }

@@ -4,6 +4,8 @@ import { Button, Drawer, DrawerBody, DrawerHeader, DrawerOverlay, DrawerContent,
 import { BsFillArrowRightSquareFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 
+import SidebarDrawer from "../components/SidebarDrawer";
+
 export default function Main({ children }: { children: ReactNode }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -42,7 +44,7 @@ export default function Main({ children }: { children: ReactNode }) {
               </Link>
             </DrawerHeader>
             <DrawerBody mt={4} w={"100%"} p={0}>
-              <p>Ini Drawer yang ngeslide</p>
+              <SidebarDrawer closeDrawer={onClose} />
             </DrawerBody>
           </DrawerContent>
         </Drawer>

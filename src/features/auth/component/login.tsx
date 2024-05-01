@@ -9,6 +9,8 @@ export default function Login() {
   const { form, handleChange, handleLogin, isLoading, isError, Error, isLoginSuccess } = useLogin();
 
   useEffect(() => {
+    console.log("ini isLogin", isLoginSuccess);
+
     if (isLoginSuccess) {
       navigate("/");
     }

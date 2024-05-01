@@ -6,6 +6,8 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { toast, ToastContainer } from "react-toastify";
 import getError from "./utils/GetError";
 import Router from "./router/router";
+import store from "./redux/store";
+import { Provider } from "react-redux";
 
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
@@ -28,12 +30,14 @@ function App() {
   return (
     <>
       <Fragment>
-        <QueryClientProvider client={queryClient}>
-          <ChakraProvider>
-            <Router />
-          </ChakraProvider>
-          <ReactQueryDevtools initialIsOpen={false} position="bottom" />
-        </QueryClientProvider>
+        <Provider store={store}>
+          <QueryClientProvider client={queryClient}>
+            <ChakraProvider>
+              <Router />
+            </ChakraProvider>
+            <ReactQueryDevtools initialIsOpen={false} position="bottom" />
+          </QueryClientProvider>
+        </Provider>
         <ToastContainer />
       </Fragment>
     </>
