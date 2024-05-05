@@ -5,9 +5,6 @@ import { addThread, uploadMultipleImage } from "../utils/ThreadUtil";
 import cloudinary from "../config";
 import * as fs from "fs";
 import redisClient, { DEFAULT_EXPIRATION } from "../cache/redis";
-import upload from "../middleware/UploadMiddleware";
-import pLimit from "p-limit";
-import { array } from "joi";
 
 const prisma = new PrismaClient();
 
@@ -37,6 +34,7 @@ export default new (class ThreadService {
     try {
       redisConnectedDone();
       const page = parseInt(req.params.page) || 1;
+
       const pageSize = 10;
       const skip = (page - 1) * pageSize;
 
