@@ -7,8 +7,11 @@ import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import SearchPage from "../pages/SearchPage";
+import ProfilePage from "../pages/ProfilePage";
+import EditProfilePage from "../pages/EditProfilePage";
+import ReplyPage from "../pages/ReplyPage";
 
-function router() {
+function Router() {
   const [checkAuthFinish, setCheckAuthFinish] = useState<boolean>(true);
   const jwtToken = localStorage.getItem("jwtToken");
 
@@ -73,6 +76,19 @@ function router() {
                 }
               />
             </Route>
+
+            <Route path="/reply/threadId">
+              <Route
+                index
+                element={
+                  <IsLogin>
+                    <Main>
+                      <ReplyPage />
+                    </Main>
+                  </IsLogin>
+                }
+              />
+            </Route>
             <Route path="/search">
               <Route
                 index
@@ -85,6 +101,46 @@ function router() {
                 }
               />
             </Route>
+
+            <Route path="/profile/:userId">
+              <Route
+                index
+                element={
+                  <IsLogin>
+                    <Main>
+                      <ProfilePage />
+                    </Main>
+                  </IsLogin>
+                }
+              />
+            </Route>
+
+            <Route path="/my-profile/:userId">
+              <Route
+                index
+                element={
+                  <IsLogin>
+                    <Main>
+                      <ProfilePage />
+                    </Main>
+                  </IsLogin>
+                }
+              />
+            </Route>
+
+            <Route path="/edit-profile">
+              <Route
+                index
+                element={
+                  <IsLogin>
+                    <Main>
+                      <EditProfilePage />
+                    </Main>
+                  </IsLogin>
+                }
+              />
+            </Route>
+
             <Route path="/register">
               <Route
                 index
@@ -112,4 +168,4 @@ function router() {
   );
 }
 
-export default router;
+export default Router;

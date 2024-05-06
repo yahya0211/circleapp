@@ -1,4 +1,4 @@
-import { PayloadAction, createAsyncThunk, isRejectedWithValue } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import getError from "../../utils/GetError";
 import { API } from "../../utils/api";
@@ -44,7 +44,7 @@ export const getProfile = createAsyncThunk("profile", async (_, { rejectWithValu
 
     return response.data.data;
   } catch (error) {
-    return isRejectedWithValue({ errorMessage: getError(Error) });
+    return rejectWithValue({ errorMessage: getError(Error) });
   }
 });
 
@@ -66,7 +66,7 @@ const profileSlice = createSlice({
       state.data = null;
       state.isLoading = false;
       state.isError = true;
-      state.error = action.payload?.errorMessage || "Unkwon Error";
+      state.error = action.payload?.errorMessage || "Unknwon Error Occured";
     });
   },
 });

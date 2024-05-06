@@ -5,6 +5,8 @@ import { BsFillArrowRightSquareFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 
 import SidebarDrawer from "../components/SidebarDrawer";
+import Sidebar from "../components/Sidebar";
+import Widget from "../components/Widget";
 
 export default function Main({ children }: { children: ReactNode }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -12,9 +14,9 @@ export default function Main({ children }: { children: ReactNode }) {
   return (
     <Fragment>
       <Flex color="white" h={"100vh"}>
-        <p>Ini side bar</p>
+        <Sidebar />
         {children}
-        <p>Ini isi dari profile, suggested, watermark</p>
+        <Widget />
         <Button
           display={{ base: "flex", lg: "none" }}
           justifyContent={"center"}

@@ -25,8 +25,15 @@ interface UserProfileType {
 
 interface FollowType {
   id: string;
-  follower: string;
-  followwing: string;
+  follower: FillFollower;
+  followwing: FillFollower;
+}
+
+interface FillFollower {
+  id: string;
+  username: string;
+  fullname: string;
+  photo_profile: string;
 }
 
 interface SearchUserType {
@@ -39,4 +46,73 @@ interface SearchUserType {
   bio: string | null;
   created_at: string;
   updated_at: string;
+}
+
+interface Suggested {
+  id: string;
+  username: string;
+  fullname: string;
+  photo_profile: string;
+}
+
+interface EditProfileType {
+  fullname: string;
+  password: string;
+  bio: string;
+}
+
+interface ThreadPostType {
+  content: string;
+  images?: File;
+}
+
+interface ReplyPostType {
+  content: string;
+  images?: File;
+  threadId?: string;
+}
+
+interface ThreadHomeType {
+  id: string;
+  content: string;
+  image: string;
+  created_at: string;
+  updated_at: string;
+  user: {
+    id: string;
+    username: string;
+    fullname: string;
+    photo_profile: string;
+  };
+  likes: ThreadLikeType[];
+  replies: {
+    length: number;
+  };
+  isLiked: boolean;
+}
+
+interface ThreadLikeType {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  user: {
+    id: string;
+    username: string;
+    fullname: string;
+    photo_profile: string;
+  };
+}
+
+interface ThreadReplyType {
+  id: string;
+  content: string;
+  image: string;
+  created_at: string;
+  updated_at: string;
+  user: {
+    id: string;
+    username: string;
+    fullname: string;
+    photo_profile: string;
+  };
 }

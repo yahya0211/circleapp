@@ -1,6 +1,12 @@
+import { Fragment } from "react";
+import Thread from "../features/thread/components/Thread";
 
 function HomePage() {
-  return <div>ini home page</div>;
+  return (
+    <Fragment>
+      <Thread />
+    </Fragment>
+  );
 }
 
 export default HomePage;

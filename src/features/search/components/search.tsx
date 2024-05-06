@@ -1,5 +1,5 @@
 import { Fragment, useState, useEffect } from "react";
-import { Alert, AlertDescription, AlertIcon, Box, Button, Flex, FormControl, Heading, Input, InputGroup, InputLeftElement, Text, Image, Spinner, Card, CardBody } from "@chakra-ui/react";
+import { Alert, AlertDescription, AlertIcon, Box, Button, Flex, Input, InputGroup, InputLeftElement, Text, Image, Spinner, Card, CardBody } from "@chakra-ui/react";
 import { useSearch } from "../hooks/useSearch";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { MdPersonSearch } from "react-icons/md";
@@ -82,7 +82,7 @@ export default function Search() {
                               <Box>
                                 <Text fontSize={"sm"}>{user.fullname}</Text>
                                 <Text fontSize={"sm"} color={"gray.400"}>
-                                  {user.username}
+                                  @{user.username}
                                 </Text>
                               </Box>
                             </Flex>
