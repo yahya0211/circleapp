@@ -18,6 +18,7 @@ export default function Thread() {
   const { mutate } = usePostLike();
   const { mutate: mutateDelete } = useDeleteThread();
   const { data: profileData } = useAppSelector((state) => state.profile);
+  console.log(profileData);
 
   return (
     <Fragment>
