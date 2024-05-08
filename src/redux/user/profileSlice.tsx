@@ -3,9 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import getError from "../../utils/GetError";
 import { API } from "../../utils/api";
 
-import { jwtDecode } from "jwt-decode";
-const jwtToken = localStorage.getItem("jwtToken");
-
 type initialStateT = {
   data: UserProfileType | null;
   isLoading: boolean;
@@ -20,22 +17,20 @@ const initialState: initialStateT = {
   error: "",
 };
 
-interface JWTPayload {
-  id: string;
+const jwtToken = localStorage.getItem("jwtToken");
+
+if (!jwtToken) {
+  throw new Error("JWT token not found in local storage");
 }
 
+const decodeToken = jwtToken.split(".")[1];
+const userData = JSON.parse(atob(decodeToken));
+const idUser = userData?.User?.id;
+
 export const getProfile = createAsyncThunk("profile", async (_, { rejectWithValue }) => {
-  const getToken = () => {
-    if (jwtToken) {
-      const decodeToken: JWTPayload = jwtDecode(jwtToken);
-      const idToken = decodeToken.id;
-      return idToken;
-    } else {
-      return null;
-    }
-  };
   try {
-    const id = getToken();
+    const id = idUser;
+
     const response = await API.get(`findByUserId/${id}`, {
       headers: {
         Authorization: `Bearer ${jwtToken}`,

@@ -30,7 +30,7 @@ export default function Main({ children }: { children: ReactNode }) {
           py={5}
           onClick={onOpen}
         >
-          <Text>
+          <Text fontSize={"xl"}>
             <BsFillArrowRightSquareFill />
           </Text>
         </Button>

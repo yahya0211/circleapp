@@ -6,7 +6,7 @@ import getError from "../../../utils/GetError";
 const jwtToken = localStorage.getItem("jwtToken");
 
 const fetchInfinityThreads = async ({ pageParam = 1 }) => {
-  const response = await API.get(`threads/${pageParam}`, {
+  const response = await API.get(`findAllThread/${pageParam}`, {
     headers: {
       Authorization: `Bearer ${jwtToken}`,
     },
@@ -134,17 +134,18 @@ export const useDeleteThread = () => {
 };
 
 const fetchDetailThread = async (threadId: string) => {
-  const response = await API.get(`thread/${threadId}`, {
+  const response = await API.get(`findThreadById/${threadId}`, {
     headers: {
       Authorization: `Bearer ${jwtToken}`,
     },
   });
+
   return response.data;
 };
 
 export const useDetailThread = (threadId: string) => {
   return useQuery({
-    queryKey: ["detail-thread"],
+    queryKey: ["detail-findThreadById"],
     queryFn: () => fetchDetailThread(threadId),
     refetchOnWindowFocus: false,
   });
@@ -170,7 +171,7 @@ export const usePostReply = (reset: () => void) => {
     mutationFn: postReply,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["detail-thread"],
+        queryKey: ["detail-findThreadById"],
       });
       reset();
     },

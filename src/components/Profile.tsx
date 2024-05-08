@@ -59,6 +59,9 @@ export default function Profile() {
                   <Text fontSize={"2xl"} mt={"40px"} fontWeight={"bold"}>
                     {profileData?.fullname}
                   </Text>
+                  <Text fontSize={"2xl"} mt={"40px"} fontWeight={"bold"}>
+                    @{profileData?.fullname}
+                  </Text>
                   <Text fontSize={"md"} mt={1}>
                     {profileData?.bio}
                   </Text>

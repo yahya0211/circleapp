@@ -1,25 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
-import getError from "../../../utils/GetError";
 import { API } from "../../../utils/api";
-
-API;
-getError;
 
 const jwtToken = localStorage.getItem("jwtToken");
 
-const fetchUser = async (name: string) => {
-  const response = await API.get(`findByUserName/${name}`, {
+const fetchUser = async (id: string) => {
+  const response = await API.get(`findByUserName/${id}`, {
     headers: {
       Authorization: `Bearer ${jwtToken}`,
     },
   });
+
+  console.log(response);
 
   return response.data;
 };
 
 export const useSearch = (name: string) => {
   return useQuery({
-    queryKey: ["search-users"],
+    queryKey: ["todos-findByUserName"],
     queryFn: () => fetchUser(name),
     staleTime: 10000,
     refetchOnWindowFocus: false,

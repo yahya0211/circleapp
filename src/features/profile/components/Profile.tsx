@@ -17,12 +17,13 @@ export default function Profile() {
 
   const { data: detailUser, isLoading, isError, error } = useAppSelector((state) => state.detailUser);
   const { data: profile } = useAppSelector((state) => state.profile);
+  // const { data: profile_pict } = useAppSelector((state) => state.profile_pict);
+
+  console.log(detailUser);
 
   useEffect(() => {
     dispatch(getDetailUser(params.userId || ""));
   }, [params]);
-
-  // console.log("Paramater dari profile:", params.userId);
 
   const followAndUnfollow = async () => {
     try {
@@ -100,15 +101,17 @@ export default function Profile() {
                         </>
                       )}
                     </Box>
-                    <Text fontSize={"sm"} color={"gray.400"}>
-                      @{detailUser?.fullname}
-                    </Text>
-                    <Text fontSize={"sm"} color={"gray.400"}>
-                      @{detailUser?.username}
-                    </Text>
-                    <Text fontSize={"sm"} color={"gray.400"}>
-                      @{detailUser?.bio}
-                    </Text>
+                    <Box mt={"75px"}>
+                      <Text fontSize={"sm"} color={"gray.400"}>
+                        {detailUser?.fullname}
+                      </Text>
+                      <Text fontSize={"sm"} color={"gray.400"}>
+                        @{detailUser?.username}
+                      </Text>
+                      <Text fontSize={"sm"} color={"gray.400"}>
+                        {detailUser?.bio}
+                      </Text>
+                    </Box>
                     <Flex mt={"10px"} gap={3} mb={5}>
                       <Box fontSize={"md"}>
                         {detailUser?.follower.length}{" "}
@@ -139,17 +142,17 @@ export default function Profile() {
                                   <Flex key={index} justifyContent={"space-between"} alignItems={"center"} my={4} display={{ base: "block", sm: "flex" }}>
                                     <Flex gap={2} alignItems={"center"} mb={{ base: 3, sm: 0 }}>
                                       <Text>
-                                        <Image borderRadius="full" boxSize="45px" objectFit="cover" src={follower.follower.photo_profile} alt={follower.follower.fullname} />
+                                        <Image borderRadius="full" boxSize="45px" objectFit="cover" src={detailUser?.photo_profile} alt={detailUser.fullname} />
                                       </Text>
                                       <Box>
-                                        <Text fontSize={"sm"}>{follower.follower.fullname}</Text>
+                                        <Text fontSize={"sm"}>{detailUser.fullname}</Text>
                                         <Text fontSize={"sm"} color={"gray.400"}>
-                                          @{follower.follower.username}
+                                          @{detailUser.username}
                                         </Text>
                                       </Box>
                                     </Flex>
                                     <Text>
-                                      <Link to={`/profile/${follower.follower.id}`}>
+                                      <Link to={`/profile/${detailUser.id}`}>
                                         <Button
                                           color={"white"}
                                           _hover={{
@@ -172,25 +175,25 @@ export default function Profile() {
                         </TabPanel>
                         <TabPanel>
                           <Box bg={"#2b2b2b"} px={5} py={3}>
-                            {!detailUser?.followwing.length ? (
+                            {detailUser?.followwing.length ? (
                               <Text fontSize={"md"}>No Following Found</Text>
                             ) : (
                               <>
-                                {detailUser?.followwing.map((following, index) => (
+                                {detailUser?.followwing.map((followwing, index) => (
                                   <Flex key={index} justifyContent={"space-between"} alignItems={"center"} my={4} display={{ base: "block", sm: "flex" }}>
                                     <Flex gap={2} alignItems={"center"} mb={{ base: 3, sm: 0 }}>
                                       <Text>
-                                        <Image borderRadius="full" boxSize="45px" objectFit="cover" src={following.followwing.photo_profile} alt={following.followwing.fullname} />
+                                        <Image borderRadius="full" boxSize="45px" objectFit="cover" src={detailUser.photo_profile} alt={detailUser.fullname} />
                                       </Text>
                                       <Box>
-                                        <Text fontSize={"sm"}>{following.followwing.fullname}</Text>
+                                        <Text fontSize={"sm"}>{detailUser.fullname}</Text>
                                         <Text fontSize={"sm"} color={"gray.400"}>
-                                          @{following.followwing.username}
+                                          @{detailUser.username}
                                         </Text>
                                       </Box>
                                     </Flex>
                                     <Text>
-                                      <Link to={`/profile/${following.followwing.id}`}>
+                                      <Link to={`/profile/${detailUser.id}`}>
                                         <Button
                                           color={"white"}
                                           _hover={{

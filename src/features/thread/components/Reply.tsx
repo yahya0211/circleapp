@@ -11,6 +11,7 @@ export default function Reply() {
   const params = useParams();
 
   const { isLoading, data: thread, isError, error } = useDetailThread(params.threadId || "");
+  console.log(thread);
 
   return (
     <Fragment>
@@ -40,21 +41,21 @@ export default function Reply() {
                 <>
                   <Image borderRadius={"full"} boxSize={"40px"} objectFit={"cover"} src={`${thread?.data?.user?.photo_profile}`} alt={`Profile Picture`} />
                   <Box>
-                    <Flex mb={"5px"}>
+                    <Flex mb={"10px"}>
                       <Link to={`/profile/${thread?.data?.user?.id}`}>
                         <Text fontWeight={"bold"} me={"10px"}>
-                          {thread?.data?.data.user?.fullname}
+                          {thread?.data?.user.fullname}
                         </Text>
                       </Link>
                       <Box mt={"2px"} fontSize={"sm"} color={"grey.400"}>
-                        <Link to={`/profile/${thread?.data?.user?.id}`}>@{thread?.data?.data.user?.username}</Link> -{" "}
-                        <Text display={"inline-block"} title={thread?.data?.data.created_at}>
-                          {moment(new Date(thread?.data?.data.created_at)).calendar()}
+                        <Link to={`/profile/${thread?.data?.id}`}>@{thread?.data?.replies.user?.username}</Link> -{" "}
+                        <Text display={"inline-block"} title={thread?.data?.user.created_at}>
+                          {moment(new Date(thread?.data?.user.created_at)).calendar()}
                         </Text>
                       </Box>
                     </Flex>
                     <Text fontSize={"sm"} mb={"10px"} wordBreak={"break-word"}>
-                      {thread?.data?.data.images && <Image borderRadius="5px" boxSize="550px" objectFit="cover" src={thread.data.data.images} alt={`${thread.data.data.images} Thread Image`} mb={"10px"} />}
+                      {thread?.data?.image && <Image borderRadius="5px" boxSize="550px" objectFit="cover" src={thread.data.image} alt={`${thread.data.image} Thread Image`} mb={"10px"} />}
                     </Text>
                   </Box>
                 </>
@@ -62,13 +63,13 @@ export default function Reply() {
             </>
           )}
         </Flex>
-        <Flex>
+        <Flex flexDir={"column"}>
           <Box border={"2px solid #3a3a3a"} p={"20px"} mb={"10px"}>
             <ReplyForm threadId={params.threadId || ""} />
           </Box>
           {!isLoading && !isError ? (
             <>
-              {thread.data.data.replies.map((reply: ThreadReplyType) => (
+              {thread.data.replies.map((reply: ThreadReplyType) => (
                 <ReplyItem key={reply.id} reply={reply} />
               ))}
             </>

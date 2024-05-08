@@ -8,6 +8,7 @@ import { useAppSelector } from "../redux/store";
 import { API } from "../utils/api";
 import getError from "../utils/GetError";
 import Swal from "sweetalert2";
+import { jwtDecode } from "jwt-decode";
 
 // import icon
 import { IoHomeOutline, IoHome } from "react-icons/io5";
@@ -17,7 +18,6 @@ import { CiLogout } from "react-icons/ci";
 import { FaUserAlt } from "react-icons/fa";
 import { FaRegUser } from "react-icons/fa";
 import { RiDeleteBin5Fill } from "react-icons/ri";
-import { jwtDecode } from "jwt-decode";
 
 interface SidebarDrawerInterface {
   closeDrawer: () => void;

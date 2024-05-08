@@ -7,19 +7,19 @@ import { RiImageAddFill } from "react-icons/ri";
 
 export default function ThreadFrom() {
   const [content, setContent] = useState<string>("");
-  const [images, setImages] = useState<File | null>(null);
+  const [image, setImage] = useState<File | null>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutate, isPending } = usePostThread(() => {
     setContent("");
-    setImages(null);
+    setImage(null);
   });
 
   const postThread = () => {
     const thread: ThreadPostType = {
       content,
     };
-    if (images) {
-      thread.images = images;
+    if (image) {
+      thread.image = image;
     }
     mutate(thread);
   };
@@ -32,7 +32,7 @@ export default function ThreadFrom() {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files && files.length > 0) {
-      setImages(files[0]);
+      setImage(files[0]);
     }
   };
 

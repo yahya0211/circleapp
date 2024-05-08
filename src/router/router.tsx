@@ -77,7 +77,7 @@ function Router() {
               />
             </Route>
 
-            <Route path="/reply/threadId">
+            <Route path="/reply/:threadId">
               <Route
                 index
                 element={

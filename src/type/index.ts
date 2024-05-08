@@ -57,18 +57,18 @@ interface Suggested {
 
 interface EditProfileType {
   fullname: string;
-  password: string;
+  password?: string;
   bio: string;
 }
 
 interface ThreadPostType {
   content: string;
-  images?: File;
+  image?: File;
 }
 
 interface ReplyPostType {
   content: string;
-  images?: File;
+  image?: File;
   threadId?: string;
 }
 
@@ -84,7 +84,7 @@ interface ThreadHomeType {
     fullname: string;
     photo_profile: string;
   };
-  likes: ThreadLikeType[];
+  like: ThreadLikeType[];
   replies: {
     length: number;
   };

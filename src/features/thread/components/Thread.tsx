@@ -44,7 +44,7 @@ export default function Thread() {
                     {group.data.data.map((thread: ThreadHomeType) => (
                       <Fragment key={thread.id}>
                         <Flex gap={"15px"} border={"2px solid #3a3a3a"} p={"20px"} mb={"10px"}>
-                          <Image borderRadius="full" boxSize="40px" objectFit="cover" src={`${thread.user.fullname} Profile Picture`} />
+                          <Image borderRadius="full" boxSize="40px" objectFit="cover" src={thread.user.photo_profile} alt="{`${thread.user.fullname} Profile Picture`}" />
                           <Box>
                             <Box display={{ base: "block", md: "flex" }} mb={"5px"}>
                               <Link to={`/profile/${thread.user.id}`}>
@@ -86,7 +86,7 @@ export default function Thread() {
                                   )}
                                 </Box>
                                 <Text cursor={"pointer"} fontSize={"sm"} color={"gray.400"}>
-                                  {thread.likes.length}
+                                  {thread.like.length}
                                 </Text>
                               </Flex>
 
