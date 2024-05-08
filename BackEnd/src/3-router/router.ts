@@ -34,7 +34,7 @@ router.get("/findByUserId/:userId", AuthMidleware.Auth, UserController.findById)
 router.get("/findByUserName/:name", AuthMidleware.Auth, UserController.findByName);
 router.get("/getSuggested", AuthMidleware.Auth, UserController.getSugestedUser);
 router.put("/userProfileNoImage/:userId", AuthMidleware.Auth, UserController.updateWithoutImage);
-router.put("/userProfileImage/:userId", AuthMidleware.Auth, UserController.uploadProfilePicture);
+router.put("/userProfileImage/:userId", AuthMidleware.Auth, upload.single("image"), UserController.uploadProfilePicture);
 router.delete("/deleteUser/:userId", AuthMidleware.Auth, UserController.delete);
 
 //Thread

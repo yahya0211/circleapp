@@ -5,6 +5,7 @@ import { addThread, uploadMultipleImage } from "../utils/ThreadUtil";
 import cloudinary from "../config";
 import * as fs from "fs";
 import redisClient, { DEFAULT_EXPIRATION } from "../cache/redis";
+import { log } from "console";
 
 const prisma = new PrismaClient();
 
