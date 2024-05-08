@@ -19,8 +19,6 @@ export default function Profile() {
   const { data: profile } = useAppSelector((state) => state.profile);
   // const { data: profile_pict } = useAppSelector((state) => state.profile_pict);
 
-  console.log(detailUser);
-
   useEffect(() => {
     dispatch(getDetailUser(params.userId || ""));
   }, [params]);

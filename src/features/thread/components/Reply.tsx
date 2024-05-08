@@ -11,7 +11,6 @@ export default function Reply() {
   const params = useParams();
 
   const { isLoading, data: thread, isError, error } = useDetailThread(params.threadId || "");
-  console.log(thread);
 
   return (
     <Fragment>

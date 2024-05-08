@@ -11,6 +11,7 @@ export default function Widget() {
         <Profile />
         <Suggested />
         <Watermark />
+        asfas
       </Box>
     </Fragment>
   );

@@ -15,8 +15,8 @@ export default function Main({ children }: { children: ReactNode }) {
     <Fragment>
       <Flex color="white" h={"100vh"}>
         <Sidebar />
-        {children}
         <Widget />
+        {children}
         <Button
           display={{ base: "flex", lg: "none" }}
           justifyContent={"center"}

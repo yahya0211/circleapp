@@ -55,7 +55,8 @@ export default function SidebarDrawer(props: SidebarDrawerInterface) {
           Authorization: `Bearer ${jwtToken}`,
         },
       });
-      localStorage.clear();
+      localStorage.setItem("jwtToken", `${jwtToken}1`);
+
       navigate("/login");
     } catch (error) {
       toast.error(getError(error), {
