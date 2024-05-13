@@ -45,8 +45,8 @@ export default new (class FollowService {
       //mencari pengguna apakah sudah follow user
       const exitingFollow = await this.UserFollowingRepository.findFirst({
         where: {
-          followerId: userId,
-          followingId: followingId,
+          followerId: followingId,
+          followingId: userId,
         },
       });
 
@@ -64,8 +64,8 @@ export default new (class FollowService {
       //menangani ketika belum follow
       const followUser = await this.UserFollowingRepository.create({
         data: {
-          followerId: userId,
-          followingId: followingId,
+          followerId: followingId,
+          followingId: userId,
           isFollow: true,
         },
       });

@@ -12,7 +12,7 @@ export const uploadMultipleImage = Joi.object({
 });
 
 export const addThreadQueue = Joi.object({
-  image: Joi.allow(""),
+  image: Joi.string().allow(""),
   images: Joi.allow(""),
   content: Joi.allow(""),
 });

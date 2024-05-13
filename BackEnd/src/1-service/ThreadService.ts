@@ -299,40 +299,42 @@ export default new (class ThreadService {
       const { error } = addThread.validate(body);
       if (error) return res.status(400).json({ message: error.message });
 
-      let image = req.file;
-      let image_url = "";
+      let image_url: string[] = [];
 
-      const oldThreadData = await this.ThreadRepository.findUnique({
-        where: { id: userId },
-        select: {
-          image: true,
-        },
-      });
-
-      if (image) {
-        const cloudinaryUpload = await cloudinary.uploader.upload(image.path, {
-          folder: "Circle53",
-        });
-        image_url = cloudinaryUpload.secure_url;
-        fs.unlinkSync(image.path);
-
-        if (oldThreadData && oldThreadData) {
-          const publicId = oldThreadData.image?.split("/").pop()?.split("_")[0];
-          await cloudinary.uploader.destroy(publicId as string);
+      if (Array.isArray(req.files)) {
+        for (const file of req.files as Express.Multer.File[]) {
+          const result = await cloudinary.uploader.upload(file.path, {
+            folder: "Circle53",
+          });
+          image_url.push(result.secure_url);
         }
       } else {
-        image_url = oldThreadData?.image || "";
+        const file = req.file as Express.Multer.File;
+        const result = await cloudinary.uploader.upload(file.path, {
+          folder: "Circle53",
+        });
+        image_url.push(result.secure_url);
       }
 
       const threadUpdate = await this.ThreadRepository.update({
         where: { id: threadId },
         data: {
           content: body.content,
-          image: image_url,
+          images: {
+            set: image_url,
+          },
           created_at: new Date(),
           user: { connect: { id: userId } },
         },
       });
+
+      if (Array.isArray(req.files)) {
+        for (const file of req.files as Express.Multer.File[]) {
+          fs.unlinkSync(file.path);
+        }
+      } else {
+        fs.unlinkSync((req.file as Express.Multer.File).path);
+      }
 
       return res.status(201).json({
         code: 201,
@@ -392,72 +394,57 @@ export default new (class ThreadService {
 
   async uploadMultipleImage(req: Request, res: Response) {
     try {
-      const body = req.body;
-      const { error } = uploadMultipleImage.validate(body);
-      if (error) return res.status(400).json({ message: error.message });
-
-      const id = res.locals.loginSession.User.id;
+      const userId = res.locals.loginSession.User.id;
 
       const userSelect = await this.UserRepository.findUnique({
-        where: { id: id },
+        where: { id: userId },
       });
 
       if (!userSelect) return res.status(404).json({ message: "User not found" });
 
+      const body = req.body;
+      const { error } = uploadMultipleImage.validate(body);
+      if (error) return res.status(400).json({ message: error.message });
+
       const images = req.files;
+
       const image_url: string[] = [];
 
-      if (images) {
-        if (Array.isArray(images)) {
-          Promise.all(
-            images.map(async (data) => {
-              const cloudinaryUpload = await cloudinary.uploader.upload(data.path, {
-                folder: "Circle53",
-              });
-              image_url.push(cloudinaryUpload.secure_url);
-              fs.unlinkSync(data.path);
-            })
-          ).then(async () => {
-            const newThread = await this.ThreadRepository.create({
-              data: {
-                content: body.content,
-                images: image_url,
-                image: "Upload image",
-                user: {
-                  connect: { id: id },
-                },
-              },
-            });
-
-            return res.status(200).json({
-              code: 200,
-              status: "Add Thread Success",
-              data: newThread,
-            });
+      if (Array.isArray(req.files)) {
+        for (const file of req.files as Express.Multer.File[]) {
+          const result = await cloudinary.uploader.upload(file.path, {
+            folder: "Circle53",
           });
+          image_url.push(result.url);
+          fs.unlinkSync(file.path);
         }
       } else {
-        image_url.push("");
-
-        const newThread = await this.ThreadRepository.create({
-          data: {
-            content: body.content,
-            images: image_url,
-            image: "",
-            user: { connect: { id: id } },
-          },
+        const file = req.files as unknown as Express.Multer.File;
+        const result = await cloudinary.uploader.upload(file.path, {
+          folder: "Circle53",
         });
-        return res.status(200).json({
-          code: 200,
-          status: "Add Thread Success!",
-          data: newThread,
-        });
+        image_url.push(result.secure_url);
+        fs.unlinkSync(file.path);
       }
+      const thread = await this.ThreadRepository.create({
+        data: {
+          content: body.content,
+          image: "",
+          images: image_url,
+          created_at: new Date(),
+          user: { connect: { id: userId } },
+        },
+      });
 
-      console.log(images);
+      return res.status(200).json({
+        code: 201,
+        status: "Success",
+        message: "Add Threads Success",
+        data: thread,
+      });
     } catch (error) {
       console.log(error);
-      return res.status(500).json(error);
+      return res.status(500).json({ message: error });
     }
   }
 })();

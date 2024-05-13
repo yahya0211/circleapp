@@ -25,7 +25,7 @@ router.post("/thread/:threadId/like", AuthMidleware.Auth, LikeController.like);
 
 //Reply
 router.post("/addReply/:threadId/reply", AuthMidleware.Auth, upload.single("image"), ReplyController.addReply);
-router.post("/updateReply/:threadId/reply/:replyId", AuthMidleware.Auth, upload.single("image"), ReplyController.updateReply);
+router.put("/updateReply/:threadId/reply/:replyId", AuthMidleware.Auth, upload.single("image"), ReplyController.updateReply);
 router.delete("/deleteReply/:replyId", AuthMidleware.Auth, upload.single("image"), ReplyController.deleteReply);
 
 // User
@@ -40,9 +40,9 @@ router.delete("/deleteUser/:userId", AuthMidleware.Auth, UserController.delete);
 //Thread
 router.get("/findAllThread/:page", AuthMidleware.Auth, ThreadController.findAll);
 router.get("/findThreadById/:threadId", AuthMidleware.Auth, ThreadController.findById);
-router.post("/uploadMultiple", AuthMidleware.Auth, upload.array("images"), ThreadController.uploadMultipleImage);
-router.post("/addThread", AuthMidleware.Auth, upload.single("image"), ThreadController.addThread);
-router.post("/updateThread/:threadId", AuthMidleware.Auth, upload.single("image"), ThreadController.updateThread);
+router.post("/uploadMultiple", AuthMidleware.Auth, upload.any(), ThreadController.uploadMultipleImage);
+router.post("/addThread", AuthMidleware.Auth, upload.any(), ThreadController.addThread);
+router.put("/updateThread/:threadId", AuthMidleware.Auth, upload.any(), ThreadController.updateThread);
 router.delete("/deleteThread/:threadId", AuthMidleware.Auth, upload.single("image"), ThreadController.deleteThread);
 
 // Thread Queue
