@@ -32,6 +32,7 @@ export default function EditProfile() {
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}
+            msafmasfiij
             <FormControl mb={"20px"}>
               <Input type="fullname" placeholder="Type Fullname" bg={"#f8f9fb"} color={"black"} border={"none"} name="fullname" onChange={handleChange} value={form.fullname} />
             </FormControl>
@@ -41,7 +42,6 @@ export default function EditProfile() {
             <FormControl mb={"20px"}>
               <Input type="bio" placeholder="Type Bio" bg={"#f8f9fb"} color={"black"} border={"none"} name="bio" onChange={handleChange} value={form.bio} />
             </FormControl>
-
             <Flex justifyContent={"end"}>
               {isLoading ? (
                 <Button isLoading colorScheme="green" variant="solid" borderRadius={"full"} mb={3}>

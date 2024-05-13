@@ -23,6 +23,8 @@ function Router() {
         },
       });
     } catch (error) {
+      localStorage.setItem("jwtToken", `${jwtToken}1`);
+
       localStorage.clear();
       return <Navigate to="/login" />;
     } finally {

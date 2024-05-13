@@ -44,6 +44,7 @@ export function useLogin() {
       setError(getError(error));
     } finally {
       setIsLoading(false);
+      location.reload();
     }
   }
   return {

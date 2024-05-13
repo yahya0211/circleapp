@@ -155,6 +155,7 @@ export default function SidebarDrawer(props: SidebarDrawerInterface) {
                 }).then((resault) => {
                   if (resault.isConfirmed) {
                     localStorage.clear();
+
                     navigate("/login");
                   }
                 });

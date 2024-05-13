@@ -82,7 +82,8 @@ export default function Sidebar() {
                   confirmButtonText: "Yes, Logout!",
                 }).then((result) => {
                   if (result.isConfirmed) {
-                    localStorage.setItem("jwtToken", `${jwtToken}1`);
+                    localStorage.clear();
+
                     navigate("/login");
                   }
                 });

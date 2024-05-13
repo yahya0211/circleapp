@@ -7,11 +7,10 @@ import Suggested from "./Suggested";
 export default function Widget() {
   return (
     <Fragment>
-      <Box w={{ base: "37%", "2xl": "30%" }} px={10} py={10} style={{ borderLeft: "3px solid #3a3a3a" }} overflow={"auto"} className="hide-scroll" display={{ base: "none", xl: "block" }}>
+      <Box w={{ base: "30%", "2xl": "30%" }} px={5} py={5} style={{ borderLeft: "3px solid #3a3a3a" }} overflow={"auto"} className="hide-scroll" display={{ base: "block", xl: "block" }}>
         <Profile />
         <Suggested />
         <Watermark />
-        asfas
       </Box>
     </Fragment>
   );

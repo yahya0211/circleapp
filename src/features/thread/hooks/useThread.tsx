@@ -30,7 +30,7 @@ export const useInfinityThreads = () => {
 };
 
 const postThread = (thread: ThreadPostType) => {
-  return API.post("addThread", thread, {
+  return API.post("/uploadMultiple", thread, {
     headers: {
       Authorization: `Bearer ${jwtToken}`,
       "Content-Type": "multipart/form-data",
@@ -151,17 +151,19 @@ export const useDetailThread = (threadId: string) => {
   });
 };
 
-const postReply = (reply: ReplyPostType) => {
+const postReply = async (reply: ReplyPostType) => {
   const threadId = reply.threadId;
   const payload = {
     ...reply,
   };
   delete payload.threadId;
-  return API.post(`addReply/${threadId}/reply`, payload, {
+  const response = await API.post(`addReply/${threadId}/reply`, payload, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+      "Content-Type": "multipart/form-data",
     },
   });
+  return response.data;
 };
 
 export const usePostReply = (reset: () => void) => {

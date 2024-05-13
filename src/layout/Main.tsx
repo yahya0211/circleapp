@@ -10,13 +10,12 @@ import Widget from "../components/Widget";
 
 export default function Main({ children }: { children: ReactNode }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
   return (
     <Fragment>
       <Flex color="white" h={"100vh"}>
         <Sidebar />
-        <Widget />
         {children}
+        <Widget />
         <Button
           display={{ base: "flex", lg: "none" }}
           justifyContent={"center"}

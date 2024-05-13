@@ -1,5 +1,5 @@
-import { Fragment } from "react";
-import { Alert, AlertDescription, AlertIcon, Box, Button, Flex, Spinner, Text, Image } from "@chakra-ui/react";
+import { Fragment, useRef, useState } from "react";
+import { Alert, AlertDescription, AlertIcon, Box, Button, Flex, Spinner, Text, Image, Stack } from "@chakra-ui/react";
 import moment from "moment";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
@@ -19,9 +19,25 @@ export default function Thread() {
   const { mutate: mutateDelete } = useDeleteThread();
   const { data: profileData } = useAppSelector((state) => state.profile);
 
+  const imageContainerRef = useRef<HTMLDivElement>(null);
+
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const handleNext = (lenImage: number) => {
+    return (event: React.MouseEvent<HTMLButtonElement>) => {
+      setCurrentImageIndex((prevIndex: number) => (prevIndex + 1) % lenImage);
+    };
+  };
+
+  const handlePrev = (lenImage: number) => {
+    return (event: React.MouseEvent<HTMLButtonElement>) => {
+      setCurrentImageIndex((prevIndex: number) => (prevIndex - 1 + lenImage) % lenImage);
+    };
+  };
+
   return (
     <Fragment>
-      <Box flex={1} px={5} py={10} overflow={"auto"} className="hide-scroll">
+      <Box flex={1} px={10} py={10} overflow={"auto"} className="hide-scroll">
         <Text fontSize={"2xl"} mb={"10px"}>
           Home
         </Text>
@@ -62,7 +78,20 @@ export default function Thread() {
                             <Text fontSize={"sm"} mb={"10px"} wordBreak={"break-word"}>
                               {thread.content}
                             </Text>
-                            {thread.image && <Image width={"100%"} objectFit="cover" src={thread.image} alt={`${thread.image} Image Thread`} />}
+                            {/* Image */}
+                            <Box overflowX={"auto"} mb={"20px"} borderRadius={"10px"}>
+                              <Stack ref={imageContainerRef} spacing={4} direction={"row"} overflowX={"auto"}>
+                                {thread.images.length !== 0 &&
+                                  thread.images.map((image, index) => (
+                                    <Box key={index} position={"relative"} flex={"0 0 auto"} minWidth={"100px"} p={2}>
+                                      <Image boxSize={"300px"} w={"100%"} objectFit={"cover"} src={image} alt={`${image}@${index}`} borderRadius={"10px"} />
+                                    </Box>
+                                  ))}
+                              </Stack>
+                            </Box>
+
+                            {/* Image */}
+
                             {/* Button Like */}
                             <Flex gap={"15px"}>
                               <Flex alignItems={"center"}>

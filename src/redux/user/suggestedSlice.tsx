@@ -3,8 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import getError from "../../utils/GetError";
 import { API } from "../../utils/api";
 
-const jwtToken = localStorage.getItem("jwtToken");
-
 type initialStateT = {
   data: Suggested[];
   isLoading: boolean;

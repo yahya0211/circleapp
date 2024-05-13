@@ -1,7 +1,10 @@
 * {
   font-family: "Poppins", sans-serif;
+  scrollbar-width: none !important;
+  scrollbar-color: transparent var(--primary) !important;
 }
 
 body {
   background-color: rgb(29, 29, 29) !important;
+  overflow-y: hidden !important;
 }

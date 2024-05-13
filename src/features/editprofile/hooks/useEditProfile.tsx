@@ -10,6 +10,7 @@ export function useEditProfile() {
     fullname: "",
     password: "",
     bio: "",
+    photo_profile: "",
   });
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -21,6 +22,7 @@ export function useEditProfile() {
     fullname: profile.data?.fullname;
     passsword: "";
     bio: "";
+    photo_profile: profile.data?.photo_profile;
   }, [profile]);
 
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
@@ -43,13 +45,13 @@ export function useEditProfile() {
     try {
       setIsLoading(true);
 
-      const response = await API.put(`userProfileNoImage/${idUser}`, form, {
+      const response1 = await API.put(`userProfileNoImage/${idUser}`, form, {
         headers: {
           Authorization: `Bearer ${jwtToken}`,
         },
       });
 
-      toast.success(response.data.message, {
+      toast.success(response1.data.message, {
         position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,

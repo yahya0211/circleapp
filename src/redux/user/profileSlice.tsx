@@ -17,18 +17,17 @@ const initialState: initialStateT = {
   error: "",
 };
 
-const jwtToken = localStorage.getItem("jwtToken");
-
-if (!jwtToken) {
-  throw new Error("JWT token not found in local storage");
-}
-
-const decodeToken = jwtToken.split(".")[1];
-const userData = JSON.parse(atob(decodeToken));
-const idUser = userData?.User?.id;
-
 export const getProfile = createAsyncThunk("profile", async (_, { rejectWithValue }) => {
   try {
+    const jwtToken = localStorage.getItem("jwtToken");
+
+    if (!jwtToken) {
+      throw new Error("JWT token not found in local storage");
+    }
+
+    const decodeToken = jwtToken.split(".")[1];
+    const userData = JSON.parse(atob(decodeToken));
+    const idUser = userData?.User?.id;
     const id = idUser;
 
     const response = await API.get(`findByUserId/${id}`, {

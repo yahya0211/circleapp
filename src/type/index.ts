@@ -57,13 +57,14 @@ interface Suggested {
 
 interface EditProfileType {
   fullname: string;
-  password?: string;
+  password: string;
   bio: string;
+  photo_profile: string;
 }
 
 interface ThreadPostType {
   content: string;
-  image?: File;
+  images?: File[];
 }
 
 interface ReplyPostType {
@@ -75,7 +76,7 @@ interface ReplyPostType {
 interface ThreadHomeType {
   id: string;
   content: string;
-  image: string;
+  images: string[];
   created_at: string;
   updated_at: string;
   user: {
@@ -106,7 +107,7 @@ interface ThreadLikeType {
 interface ThreadReplyType {
   id: string;
   content: string;
-  image: string;
+  images: string[];
   created_at: string;
   updated_at: string;
   user: {
