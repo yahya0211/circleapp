@@ -17,17 +17,13 @@ export default function Search() {
     setNameQuery(queryParams.get("search") || "");
 
     const timeout = setTimeout(() => {
-      setGoReFetch(!goReFetch);
+      refetch();
     }, 100);
 
     return () => {
       clearTimeout(timeout);
     };
   }, [queryParams]);
-
-  useEffect(() => {
-    refetch();
-  }, [goReFetch]);
 
   const applyFilter = () => {
     let url = "/search?";

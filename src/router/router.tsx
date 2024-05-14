@@ -10,23 +10,22 @@ import SearchPage from "../pages/SearchPage";
 import ProfilePage from "../pages/ProfilePage";
 import EditProfilePage from "../pages/EditProfilePage";
 import ReplyPage from "../pages/ReplyPage";
+import { useAppDispatch, useAppSelector } from "../redux/store";
+import { authCheckAsync } from "../redux/auth";
+import Auth from "../layout/Auth";
 
 function Router() {
   const [checkAuthFinish, setCheckAuthFinish] = useState<boolean>(true);
   const jwtToken = localStorage.getItem("jwtToken");
+  const dispatch = useAppDispatch();
 
   async function authCheck() {
     try {
-      await API.get("check", {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      });
+      if (jwtToken) {
+        await dispatch(authCheckAsync(jwtToken));
+      }
     } catch (error) {
-      localStorage.setItem("jwtToken", `${jwtToken}1`);
-
-      localStorage.clear();
-      return <Navigate to="/login" />;
+      console.log(error);
     } finally {
       setCheckAuthFinish(false);
     }
@@ -36,33 +35,16 @@ function Router() {
     // Jika user melakukan login, akan mengecek apakah jwt token ada
     // jika ada akan menjalankan fungsi check
     // jika tidak ada maka setCheckFinish menjadi false
-    if (jwtToken) {
-      authCheck();
-    } else {
-      setCheckAuthFinish(false);
-    }
-  }, [jwtToken]);
-
-  function IsLogin({ children }: { children: ReactNode }) {
-    if (jwtToken) {
-      return <>{children}</>;
-    }
-    return <Navigate to="/login" />;
-  }
-  function IsNotLogin({ children }: { children: ReactNode }) {
-    if (!jwtToken) {
-      return <>{children}</>;
-    }
-    return <Navigate to="/" />;
-  }
+    authCheck();
+  }, []);
 
   return (
     <>
-      {checkAuthFinish && (
+      {/* {checkAuthFinish && (
         <Flex justifyContent={"center"} alignItems={"center"} h={"100vh"} w={"100vh"}>
           <Spinner thickness="4px" speed="0.65s" emptyColor="gray.200" color="blue.500" w={"70px"} h={"70px"} />
         </Flex>
-      )}
+      )} */}
       {!checkAuthFinish && (
         <BrowserRouter>
           <Routes>
@@ -70,11 +52,11 @@ function Router() {
               <Route
                 index
                 element={
-                  <IsLogin>
+                  <>
                     <Main>
                       <HomePage />
                     </Main>
-                  </IsLogin>
+                  </>
                 }
               />
             </Route>
@@ -83,11 +65,11 @@ function Router() {
               <Route
                 index
                 element={
-                  <IsLogin>
+                  <>
                     <Main>
                       <ReplyPage />
                     </Main>
-                  </IsLogin>
+                  </>
                 }
               />
             </Route>
@@ -95,11 +77,11 @@ function Router() {
               <Route
                 index
                 element={
-                  <IsLogin>
+                  <>
                     <Main>
                       <SearchPage />
                     </Main>
-                  </IsLogin>
+                  </>
                 }
               />
             </Route>
@@ -108,11 +90,11 @@ function Router() {
               <Route
                 index
                 element={
-                  <IsLogin>
+                  <>
                     <Main>
                       <ProfilePage />
                     </Main>
-                  </IsLogin>
+                  </>
                 }
               />
             </Route>
@@ -121,11 +103,11 @@ function Router() {
               <Route
                 index
                 element={
-                  <IsLogin>
+                  <>
                     <Main>
                       <ProfilePage />
                     </Main>
-                  </IsLogin>
+                  </>
                 }
               />
             </Route>
@@ -134,35 +116,31 @@ function Router() {
               <Route
                 index
                 element={
-                  <IsLogin>
+                  <>
                     <Main>
                       <EditProfilePage />
                     </Main>
-                  </IsLogin>
+                  </>
                 }
               />
             </Route>
 
-            <Route path="/register">
-              <Route
-                index
-                element={
-                  <IsNotLogin>
-                    <RegisterPage />
-                  </IsNotLogin>
-                }
-              />
-            </Route>
-            <Route path="/login">
-              <Route
-                index
-                element={
-                  <IsNotLogin>
-                    <LoginPage />
-                  </IsNotLogin>
-                }
-              />
-            </Route>
+            <Route
+              path="/register"
+              element={
+                <Auth>
+                  <RegisterPage />
+                </Auth>
+              }
+            ></Route>
+            <Route
+              path="/login"
+              element={
+                <Auth>
+                  <LoginPage />
+                </Auth>
+              }
+            ></Route>
           </Routes>
         </BrowserRouter>
       )}

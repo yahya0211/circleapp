@@ -1,4 +1,4 @@
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { Alert, AlertDescription, AlertIcon, Box, Button, Flex, Spinner, Text, Image, Stack } from "@chakra-ui/react";
 import moment from "moment";
 import Swal from "sweetalert2";
@@ -13,7 +13,7 @@ import { useDeleteThread, useInfinityThreads, usePostLike } from "../hooks/useTh
 import ThreadFrom from "./ThreadForm";
 
 export default function Thread() {
-  const { isLoading, data: threads, isError, error, hasNextPage, fetchNextPage, isFetching, isFetchingNextPage } = useInfinityThreads();
+  const { isLoading, data: threads, isError, error, hasNextPage, fetchNextPage, isFetching, isFetchingNextPage, refetch } = useInfinityThreads();
 
   const { mutate } = usePostLike();
   const { mutate: mutateDelete } = useDeleteThread();
@@ -34,6 +34,10 @@ export default function Thread() {
       setCurrentImageIndex((prevIndex: number) => (prevIndex - 1 + lenImage) % lenImage);
     };
   };
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   return (
     <Fragment>

@@ -9,6 +9,8 @@ import { BiLogOut } from "react-icons/bi";
 import { BsHouse, BsHouseFill } from "react-icons/bs";
 import { FaCircleUser, FaRegCircleUser } from "react-icons/fa6";
 import { RiUserSearchFill, RiUserSearchLine } from "react-icons/ri";
+import { useAppDispatch } from "../redux/store";
+import { LOGOUT } from "../redux/auth";
 
 interface User {
   id: string;
@@ -19,8 +21,9 @@ interface JwtPayload {
 }
 
 export default function Sidebar() {
-  const navigate = useNavigate();
   const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const jwtToken = localStorage.getItem("jwtToken");
   let idToken: string = "";
 
@@ -63,6 +66,7 @@ export default function Sidebar() {
               </Box>
             </Link>
           </Box>
+
           <Flex alignItems={"center"} gap={3} mb={6}>
             <Text fontSize={"2xl"}>
               <BiLogOut />
@@ -82,8 +86,8 @@ export default function Sidebar() {
                   confirmButtonText: "Yes, Logout!",
                 }).then((result) => {
                   if (result.isConfirmed) {
-                    localStorage.clear();
-
+                    dispatch(LOGOUT());
+                    localStorage.removeItem("jwtToken");
                     navigate("/login");
                   }
                 });

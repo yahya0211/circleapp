@@ -44,6 +44,7 @@ export function useRegister() {
       setError(getError(error));
     } finally {
       setIsLoading(false);
+      window.setTimeout(() => location.reload(), 5000);
     }
   }
   return {

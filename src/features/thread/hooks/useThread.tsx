@@ -26,6 +26,7 @@ export const useInfinityThreads = () => {
       return undefined;
     },
     initialPageParam: 1,
+    enabled: true,
   });
 };
 

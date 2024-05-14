@@ -16,7 +16,7 @@ export default function EditProfile() {
       dispatch(getProfile());
       navigate("/my-profile/" + profile.data?.id);
     }
-  }, [isEditProfileSuccess]);
+  }, []);
 
   return (
     <Fragment>
@@ -32,7 +32,9 @@ export default function EditProfile() {
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}
-            msafmasfiij
+            <FormControl mb={"20px"}>
+              <Input type="file" placeholder="Type Fullname" bg={"#f8f9fb"} color={"black"} border={"none"} name="photo_profile" onChange={handleChange} value={form.photo_profile} p={1} />
+            </FormControl>
             <FormControl mb={"20px"}>
               <Input type="fullname" placeholder="Type Fullname" bg={"#f8f9fb"} color={"black"} border={"none"} name="fullname" onChange={handleChange} value={form.fullname} />
             </FormControl>

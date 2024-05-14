@@ -11,6 +11,7 @@ export default function Profile() {
   const dispatch = useAppDispatch();
 
   const { data: profileData, isLoading, isError, error } = useAppSelector((state) => state.profile);
+  console.log("Profile", isLoading);
 
   useEffect(() => {
     dispatch(getProfile());

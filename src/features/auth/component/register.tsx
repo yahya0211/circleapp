@@ -12,7 +12,7 @@ export default function Register() {
     if (isRegisterSuccess) {
       navigate("/login");
     }
-  }, [isRegisterSuccess]);
+  }, []);
   return (
     <Fragment>
       <Flex justifyContent={"center"} alignItems={"center"} h={"100vh"}>

@@ -4,7 +4,7 @@ import { Fragment } from "react";
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useAppSelector } from "../redux/store";
+import { useAppSelector, useAppDispatch } from "../redux/store";
 import { API } from "../utils/api";
 import getError from "../utils/GetError";
 import Swal from "sweetalert2";
@@ -18,6 +18,7 @@ import { CiLogout } from "react-icons/ci";
 import { FaUserAlt } from "react-icons/fa";
 import { FaRegUser } from "react-icons/fa";
 import { RiDeleteBin5Fill } from "react-icons/ri";
+import { LOGOUT } from "../redux/auth";
 
 interface SidebarDrawerInterface {
   closeDrawer: () => void;
@@ -34,10 +35,11 @@ interface JwtPayload {
 export default function SidebarDrawer(props: SidebarDrawerInterface) {
   const navigate = useNavigate();
   const location = useLocation();
-  const { data: profile } = useAppSelector((state) => state.profile);
+  const dispatch = useAppDispatch();
 
   const jwtToken = localStorage.getItem("jwtToken");
   let idToken: string = "";
+  const { data: profile } = useAppSelector((state) => state.profile);
 
   if (jwtToken) {
     try {
@@ -134,6 +136,7 @@ export default function SidebarDrawer(props: SidebarDrawerInterface) {
               <Text fontSize={"md"}>Remove Account</Text>
             </Button>
           </Box>
+          {/* Delete button end */}
           <Flex alignItems={"center"} gap={3} mb={6}>
             <Text fontSize={"2xl"}>
               <CiLogout />
@@ -152,10 +155,10 @@ export default function SidebarDrawer(props: SidebarDrawerInterface) {
                   confirmButtonColor: "#A3D8FF",
                   cancelButtonColor: "#FDFFC2",
                   confirmButtonText: "Yes, logout!",
-                }).then((resault) => {
-                  if (resault.isConfirmed) {
-                    localStorage.clear();
-
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    dispatch(LOGOUT());
+                    localStorage.removeItem("jwtToken");
                     navigate("/login");
                   }
                 });

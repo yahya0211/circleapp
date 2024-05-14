@@ -1,15 +1,24 @@
-import { Fragment, ReactNode } from "react";
-import { Button, Drawer, DrawerBody, DrawerHeader, DrawerOverlay, DrawerContent, DrawerCloseButton, Flex, Heading, Text, useDisclosure } from "@chakra-ui/react";
+import { Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay, Flex, Heading, Text, useDisclosure } from "@chakra-ui/react";
+import { Fragment, ReactNode, useEffect } from "react";
 
 import { BsFillArrowRightSquareFill } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-import SidebarDrawer from "../components/SidebarDrawer";
 import Sidebar from "../components/Sidebar";
+import SidebarDrawer from "../components/SidebarDrawer";
 import Widget from "../components/Widget";
+import { useAppSelector } from "../redux/store";
 
 export default function Main({ children }: { children: ReactNode }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const auth = useAppSelector((state) => state.auth);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (auth.isLogin) {
+      return navigate("/");
+    }
+  }, []);
+
   return (
     <Fragment>
       <Flex color="white" h={"100vh"}>

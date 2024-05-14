@@ -14,7 +14,8 @@ export default function Login() {
     if (isLoginSuccess) {
       navigate("/");
     }
-  }, [isLoginSuccess]);
+  }, []);
+
   return (
     <Fragment>
       <Grid templateColumns="repeat(2, 1fr)" gap={6}>
